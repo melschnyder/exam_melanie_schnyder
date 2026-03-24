@@ -4,8 +4,8 @@ I had to go back to the Task 3 at the end and fix it. That is why I continued wi
 
 The real errors were:
 
- - uses: actions/checkout@v4
+- uses: actions/checkout@v4
 
- and 
+and
 
- -  runs-on: ubuntu-latest
+- runs-on: ubuntu-latest
