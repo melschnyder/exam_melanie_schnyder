@@ -6,10 +6,9 @@ permissions:
 
 on:
   push:
-    branches: ['main']
+    branches: ["main"]
   pull_request:
-    branches: ['main']
-
+    branches: ["main"]
 
 jobs:
   pr-comment:
@@ -37,4 +36,5 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             > "${{ steps.run.outputs.text }} ${{steps.diff.outputs.diff}}"
+
 # this is a comment to change the diff
