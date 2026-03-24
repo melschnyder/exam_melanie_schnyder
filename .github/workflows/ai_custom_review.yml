@@ -1,0 +1,28 @@
+name: Code Review Custom
+
+permissions:
+  contents: read
+  pull-requests: write
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+
+jobs:
+  pr-comment:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: pull image
+        run: docker pull mschnyder123/ai-review-demo:latest
+      - name: run container
+        id: run
+        run: docker run --rm mschnyder123/ai-review-demo:latest >> $GITHUB_OUTPUT
+      - name: comment container output
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            > "${{ steps.run.outputs.text }}"
