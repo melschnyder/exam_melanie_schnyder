@@ -19,7 +19,8 @@ jobs:
         run: docker pull mschnyder123/ai-review-demo:latest
       - name: run container
         id: run
-        run: docker run --rm mschnyder123/ai-review-demo:latest >> $GITHUB_OUTPUT
+        run: |
+          docker run --rm mschnyder123/ai-review-demo:latest >> $GITHUB_OUTPUT
       - name: comment container output
         uses: peter-evans/create-or-update-comment@v4
         with:
