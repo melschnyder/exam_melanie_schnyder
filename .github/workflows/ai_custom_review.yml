@@ -1,0 +1,40 @@
+name: Code Review Custom
+
+permissions:
+  contents: read
+  pull-requests: write
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+
+
+jobs:
+  pr-comment:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+      - name: pull image
+        run: docker pull mschnyder123/ai-review-demo:latest
+      - name: run container
+        id: run
+        run: |
+          docker run --rm mschnyder123/ai-review-demo:latest > output.txt
+          echo "text=$(cat output.txt)" >> $GITHUB_OUTPUT
+      - name: add diff output to comment
+        id: diff
+        run: |
+          git diff > diff.txt
+          echo "diff=$(cat diff.txt)" >> $GITHUB_OUTPUT
+      - name: comment container output
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            > "${{ steps.run.outputs.text }} ${{steps.diff.outputs.diff}}"
+# this is a comment to change the diff
