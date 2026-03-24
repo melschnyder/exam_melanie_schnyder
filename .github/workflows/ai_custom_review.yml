@@ -20,7 +20,8 @@ jobs:
       - name: run container
         id: run
         run: |
-          docker run --rm mschnyder123/ai-review-demo:latest >> $GITHUB_OUTPUT
+          docker run --rm mschnyder123/ai-review-demo:latest > output.txt
+          echo "text=$(cat output.txt)" >> $GITHUB_OUTPUT
       - name: comment container output
         uses: peter-evans/create-or-update-comment@v4
         with:
